@@ -11,16 +11,16 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (file) => readFileSync(resolve(root, file), "utf8");
 const html = read("docs/index.html"), app = read("docs/live/app.js");
 for (const [file, expected] of Object.entries({
-  "docs/live/engine.js": "e35873aa03c77866fee673d58e44546802c01a903c6ba7795065f661a8c5582b",
+  "docs/live/engine.js": "936e0336041e8f08c7e07b8ae5bba62e058365a41901a7dedbd2b93aae0fd668",
   "docs/live/minifly.json": "19f787599993ec3fcb53307ddff61dd5c58c355103d60620522cb7a85db66575",
 })) {
   const actual = createHash("sha256").update(readFileSync(resolve(root, file))).digest("hex");
   assert.equal(actual, expected, `Upstream simulation changed: ${file}`);
 }
-console.log("ok: original MiniFly engine and network are byte-for-byte unchanged");
+console.log("ok: pre-2.0 MiniFly engine and network are byte-for-byte unchanged");
 
 assert.match(html, /<html lang="zh-CN">/);
-for (const text of ["中文试玩", "张掌上升", "握拳悬停", "放电栅格", "拍打挑战", "原作 SpikeCalls / MIT"])
+for (const text of ["中文试玩", "张掌上升", "握拳悬停", "放电栅格", "经典版", "原作 SpikeCalls / MIT"])
   assert.ok(html.includes(text), `Missing Chinese UI: ${text}`);
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
 assert.equal(new Set(ids).size, ids.length, "Duplicate HTML IDs");
@@ -39,6 +39,7 @@ for (const channel of [
   "expansion -> LPLC2 + LC4 -> giant fiber DNp01", "looming -> DNp03 / DNp01 -> brake + saccade",
   "optic flow -> T4/T5 -> HS/VS -> DNg02 -> steady flight",
   "expansion -> LPLC2 + LC4 -> giant fiber DNp01 -> jump", "LPLC2 + LC4 -> giant fiber DNp01 -> escape",
+  "LPLC2 + LC4 -> giant fiber DNp01 -> escape climb",
 ]) assert.match(channelZh(channel), /[\u4e00-\u9fff]/u, `Untranslated channel: ${channel}`);
 assert.equal(noteZh("giant fiber escape (climb); ceiling"), "巨纤维触发上升躲避；高度上限保护");
 assert.equal(noteZh(""), "指令已通过保护层");
@@ -55,7 +56,7 @@ function checkImports(file) {
   const source = readFileSync(file, "utf8");
   for (const [, spec] of source.matchAll(/(?:from\s+|import\s*)["']([^"']+)["']/g)) {
     let target;
-    if (spec.startsWith(".")) target = resolve(dirname(file), spec);
+    if (spec.startsWith(".")) target = resolve(dirname(file), spec.split(/[?#]/)[0]);
     else if (imports[spec]) target = resolve(root, "docs", imports[spec]);
     else {
       const prefix = Object.keys(imports).find((p) => p.endsWith("/") && spec.startsWith(p));

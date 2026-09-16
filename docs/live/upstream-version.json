@@ -1,0 +1,8 @@
+{
+  "upstream_commit": "2409f08c03f3e4c9deda3f10996f37a031014c02",
+  "description": "Browser demo before the Live demo 2.0 visual redesign; only Chinese display text is changed.",
+  "render_sha256": "8d47c3b84e150c6fe3decd73aeef2fe9d0de00cc123db2a09614d54c88cc10e3",
+  "animation_sha256": "8db5c269fbee072083f87f87f9469c3e3ae9a27a34c52bd537dbde3dd41d8c24",
+  "engine_sha256": "936e0336041e8f08c7e07b8ae5bba62e058365a41901a7dedbd2b93aae0fd668",
+  "network_sha256": "19f787599993ec3fcb53307ddff61dd5c58c355103d60620522cb7a85db66575"
+}

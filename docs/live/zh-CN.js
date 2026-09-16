@@ -18,6 +18,7 @@ const channels = {
   "optic flow -> T4/T5 -> HS/VS -> DNg02 -> steady flight": "画面运动 → T4/T5 → HS/VS → DNg02 → 平稳飞行",
   "expansion -> LPLC2 + LC4 -> giant fiber DNp01 -> jump": "物体逼近 → LPLC2 + LC4 → 巨纤维 DNp01 → 跳跃躲避",
   "LPLC2 + LC4 -> giant fiber DNp01 -> escape": "LPLC2 + LC4 → 巨纤维 DNp01 → 逃逸反应",
+  "LPLC2 + LC4 -> giant fiber DNp01 -> escape climb": "LPLC2 + LC4 → 巨纤维 DNp01 → 上升躲避",
 };
 
 const notes = {
@@ -33,3 +34,4 @@ export const channelZh = (channel) => channels[channel] ?? channel;
 export const noteZh = (note) => note ? note.split("; ").map((s) => notes[s] ?? s).join("；") : "指令已通过保护层";
 export const sideZh = (side) => ({ L: "左", R: "右" }[side] ?? side);
 export const viewZh = (view) => ({ orbit: "环绕", chase: "跟随", drone: "机载相机" }[view] ?? view);
+export const furnitureZh = (name) => ({ chair: "椅子", bed: "床", wardrobe: "衣柜" }[name] ?? name);

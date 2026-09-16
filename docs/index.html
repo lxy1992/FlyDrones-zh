@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FlyDrones 中文试玩｜果蝇神经网络飞行模拟</title>
-<meta name="description" content="在浏览器中运行 850 神经元的 MiniFly 简化仿真：手势操控、障碍躲避、点击刺激神经元。">
-<meta property="og:title" content="FlyDrones 中文试玩｜果蝇神经网络飞行模拟">
+<title>FlyDrones 经典版中文试玩｜果蝇神经网络飞行模拟</title>
+<meta name="description" content="旧版霓虹线框场景的中文试玩：850 神经元 MiniFly 在浏览器中实时驱动简洁四旋翼。">
+<meta property="og:title" content="FlyDrones 经典版中文试玩｜果蝇神经网络飞行模拟">
 <meta property="og:description" content="模拟画面 → 视觉输入 → 脉冲神经网络 → 运动指令 → 虚拟无人机。计算在本机浏览器中进行。">
 <meta property="og:image" content="https://lxy1992.github.io/FlyDrones-zh/social.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -52,29 +52,8 @@ canvas.hud{display:block;width:100%;border-radius:8px;background:#030508}
 .btn.on{border-color:var(--green);color:var(--green);box-shadow:0 0 16px rgba(57,255,136,.25) inset}
 .btn kbd{font-family:var(--mono);font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-left:6px}
 .sep{width:1px;align-self:stretch;background:var(--line);margin:0 4px}
-.btn.swat{border-color:rgba(255,176,32,.7);color:var(--amber);box-shadow:0 0 18px rgba(255,176,32,.25) inset}
-.btn.swat:hover{background:rgba(255,176,32,.12)}
-.toggles{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
-.tbtn{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--text);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:6px 8px;cursor:pointer;text-decoration:none;letter-spacing:.5px}
-.tbtn:hover{border-color:rgba(76,201,240,.6)}
-.tbtn kbd{font-family:var(--mono);font-size:9px;color:var(--muted);margin-left:5px}
-.tbtn.gh{color:#05070b;background:var(--green);border-color:var(--green)}
-.score{position:fixed;left:50%;top:16px;transform:translateX(-50%);padding:10px 16px;text-align:center;display:none;min-width:420px}
-.score.on{display:block}
-.score .st{font-family:var(--mono);font-weight:900;letter-spacing:2px;color:var(--amber);font-size:14px}
-.score .st small{display:block;font-weight:500;letter-spacing:1px;color:var(--muted);font-size:10px;margin-top:2px}
-.score .sr{display:flex;gap:16px;justify-content:center;margin-top:6px}
-.score .sr div{display:flex;flex-direction:column;align-items:center}
-.score .sr b{font-family:var(--mono);font-size:20px}
-.score .sr span{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.score .sh{font-family:var(--mono);font-size:11px;color:var(--cyan);margin-top:5px}
-.tip{position:fixed;pointer-events:none;background:rgba(5,7,11,.9);border:1px solid var(--line);color:var(--text);font-size:12px;padding:6px 9px;border-radius:8px;max-width:260px;display:none;z-index:5;line-height:1.35}
-.tip b{color:var(--green);font-family:var(--mono)}
-.hint{position:fixed;left:50%;top:50%;transform:translate(-50%,120px);padding:10px 14px;font-size:13px;transition:opacity 1s;pointer-events:none}
-.hint kbd{font-family:var(--mono);border:1px solid var(--line);border-radius:4px;padding:0 5px}
-.pop{position:fixed;font-family:var(--mono);font-weight:900;font-size:26px;pointer-events:none;text-shadow:0 2px 12px rgba(0,0,0,.6);transform:translate(-50%,-50%);white-space:nowrap}
-#hudcanvas-brain{cursor:crosshair}
-.toast{position:fixed;left:50%;top:175px;transform:translate(-50%,-50%) scale(.9);font-family:var(--mono);font-weight:900;font-size:28px;letter-spacing:3px;color:var(--amber);text-shadow:0 0 24px rgba(255,150,40,.9);opacity:0;transition:all .6s;pointer-events:none;text-align:center}
+.btn.gh{color:#05070b;background:var(--green);border-color:var(--green)}
+.toast{position:fixed;left:50%;top:22%;transform:translate(-50%,-50%) scale(.9);font-family:var(--mono);font-weight:900;font-size:34px;letter-spacing:3px;color:var(--amber);text-shadow:0 0 24px rgba(255,150,40,.9);opacity:0;transition:all .6s;pointer-events:none;text-align:center}
 .toast small{display:block;font-size:13px;letter-spacing:2px;color:var(--text);opacity:.8;margin-top:6px}
 .toast.on{opacity:1;transform:translate(-50%,-50%) scale(1);transition:none}
 .warm{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;font-family:var(--mono);pointer-events:none;transition:opacity .6s}
@@ -91,8 +70,7 @@ canvas.hud{display:block;width:100%;border-radius:8px;background:#030508}
   .side{overflow:visible}
   .toast{font-size:22px;top:18%}
   #scene{position:relative;height:56vh}
-  .brand,.side,.path,.dock,.score{position:static;width:auto;transform:none;margin:10px 12px;min-width:0}
-  .hint{display:none}
+  .brand,.side,.path,.dock{position:static;width:auto;transform:none;margin:10px 12px}
   .side{bottom:auto}
   .dock{flex-wrap:wrap;justify-content:center}
   .vignette{display:none}
@@ -107,7 +85,7 @@ body.rec *{transition:none !important}
 <div class="flash" id="flash"></div>
 
 <div class="brand panel">
-  <div class="logo">FlyDrones <span class="live">中文 · 实时仿真</span></div>
+  <div class="logo">FlyDrones <span class="live">经典版 · 中文</span></div>
   <div class="tag"><b>MiniFly 简化神经网络</b>驱动虚拟无人机。画面 → 视觉输入 → 神经放电 → 运动指令。</div>
   <div class="chips">
     <div class="chip g"><div class="v" id="sNeurons">850</div><div class="k">神经元</div></div>
@@ -115,13 +93,7 @@ body.rec *{transition:none !important}
     <div class="chip p"><div class="v" id="sSpikes">0</div><div class="k">放电次数 / 秒</div></div>
     <div class="chip c"><div class="v" id="sAlt">0.00</div><div class="k">高度 / 米</div></div>
   </div>
-  <div class="toggles">
-    <button class="tbtn" id="bTheme" title="切换白天 / 夜晚">切换夜晚<kbd>N</kbd></button>
-    <button class="tbtn" id="bView" title="切换环绕 / 跟随 / 机载相机">视角：环绕<kbd>C</kbd></button>
-    <button class="tbtn" id="bSound" title="开启或关闭音效">音效：关<kbd>M</kbd></button>
-    <a class="tbtn gh" href="https://github.com/lxy1992/FlyDrones-zh" target="_blank" rel="noopener">中文源码</a>
-  </div>
-  <div class="honest">机顶果蝇只是吉祥物；右侧网络在本机实时计算。这里是 850 神经元、人工连接的 MiniFly，不是完整果蝇脑，也不连接真实无人机。<a href="https://github.com/SpikeCalls/FlyDrones" target="_blank" rel="noopener">原作 SpikeCalls / MIT</a> · <a href="https://github.com/lxy1992/FlyDrones-zh/blob/main/README.zh-CN.md" target="_blank" rel="noopener">中文玩法</a></div>
+  <div class="honest">MiniFly：850 神经元的人工连接简化模型，在本机实时计算；不是完整果蝇脑，也不连接真实无人机。<a href="https://github.com/SpikeCalls/FlyDrones">原作 SpikeCalls / MIT</a> · <a href="https://github.com/lxy1992/FlyDrones-zh/blob/main/README.zh-CN.md">中文玩法</a></div>
 </div>
 
 <div class="side">
@@ -130,8 +102,8 @@ body.rec *{transition:none !important}
     <div class="eyewrap"><canvas class="hud" id="eyes" width="532" height="399"></canvas><video id="cam" playsinline muted></video></div>
   </div>
   <div class="panel">
-    <div class="ph"><span><b>神经网络</b> · 点击刺激</span><span id="rtf">-</span></div>
-    <canvas class="hud" id="brain" width="532" height="380" style="cursor:crosshair" title=""></canvas>
+    <div class="ph"><span><b>神经网络</b> · 全部神经元</span><span id="rtf">-</span></div>
+    <canvas class="hud" id="brain" width="532" height="380"></canvas>
   </div>
   <div class="panel">
     <div class="ph"><span><b>放电栅格</b></span><span>运动输出 · 中间 · 输入</span></div>
@@ -148,39 +120,23 @@ body.rec *{transition:none !important}
 
 
 <div class="dock panel" id="dock">
-  <button class="btn" data-g="palm" title="张掌：画面向上移动，模拟自身下沉，触发上升">张掌上升<kbd>1</kbd></button>
-  <button class="btn" data-g="fist" title="握拳：画面静止，保持高度">握拳悬停<kbd>2</kbd></button>
-  <button class="btn" data-g="left" title="手向左移：注入向左旋转的视觉信号">向左<kbd>3</kbd></button>
-  <button class="btn" data-g="right" title="手向右移：注入向右旋转的视觉信号">向右<kbd>4</kbd></button>
-  <button class="btn" data-g="rush" title="手快速靠近相机：模拟物体逼近">快速靠近<kbd>5</kbd></button>
-  <button class="btn" data-g="drop" title="放下手：画面向下移动，模拟自身上升，触发下降">放手下降<kbd>6</kbd></button>
+  <button class="btn" data-g="palm">张掌上升<kbd>1</kbd></button>
+  <button class="btn" data-g="fist">握拳悬停<kbd>2</kbd></button>
+  <button class="btn" data-g="left">向左<kbd>3</kbd></button>
+  <button class="btn" data-g="right">向右<kbd>4</kbd></button>
+  <button class="btn" data-g="rush">快速靠近<kbd>5</kbd></button>
+  <button class="btn" data-g="drop">放手下降<kbd>6</kbd></button>
   <span class="sep"></span>
-  <button class="btn swat" id="bSwat" title="用苍蝇拍靠近无人机，观察网络能否及时触发躲避">拍打挑战<kbd>S</kbd></button>
   <button class="btn on" id="bAuto">自动演示<kbd>空格</kbd></button>
   <button class="btn" id="bChair">椅子避障</button>
   <button class="btn" id="bCam" title="需主动授权摄像头；图像在本机处理，首次加载手势识别资源需要联网">摄像头手势</button>
   <button class="btn" id="bReset">重置<kbd>R</kbd></button>
+  <a class="btn gh" href="https://github.com/lxy1992/FlyDrones-zh" target="_blank" rel="noopener">中文源码</a>
 </div>
-
-<div class="score panel" id="score">
-  <div class="st">拍打挑战 <small>神经网络需要先看见逼近的苍蝇拍</small></div>
-  <div class="sr">
-    <div><b id="scDodge">0</b><span>成功躲避</span></div>
-    <div><b id="scHit">0</b><span>被拍中</span></div>
-    <div><b id="scStreak">0</b><span>连续躲避</span></div>
-    <div><b id="scBest">0</b><span>最佳连胜</span></div>
-    <div><b id="scSpeed">1.2</b><span>米 / 秒</span></div>
-    <div><b id="scReact">-</b><span>逃逸提前量 / 毫秒</span></div>
-  </div>
-  <div class="sh" id="scHint">点击房间或按 S 挥动苍蝇拍</div>
-</div>
-<div class="tip" id="tip"></div>
-<div class="hint panel" id="hint"><b>试试看：</b>点击果蝇 · 按 <kbd>S</kbd> 开始拍打挑战 · 点击右侧神经元群 · 拖动画面调整视角</div>
-<div id="popups"></div>
 
 <div class="toast" id="toast">触发逃逸反应<small>LPLC2 + LC4 → 巨纤维 DNp01 放电</small></div>
 <div class="warm" id="warm"><div class="t">正在预热神经网络</div><div class="bar"><i id="warmbar"></i></div><div class="s">850 个神经元正在稳定 · 测量静息放电频率</div></div>
 
-<script type="module" src="live/app.js"></script>
+<script type="module" src="live/app.js?v=classic-2409f08-zh1"></script>
 </body>
 </html>
