@@ -8,6 +8,7 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { Pilot, DEMO_TIMELINE } from "./engine.js";
 import { createDrone, createFly, createSwatter } from "./models.js";
 import { createRoom } from "./room.js";
+import { gestureZh, channelZh, noteZh, sideZh, viewZh } from "./zh-CN.js";
 
 const qs = new URLSearchParams(location.search);
 const RECORD = qs.has("record");
@@ -117,7 +118,7 @@ function applyTheme() {
   drone.setGlow(theme === "night" ? 1 : 0.35);
   trailLine.material.opacity = theme === "night" ? 0.95 : 0.55;
   document.body.classList.toggle("day", theme === "day");
-  $("bTheme").firstChild.textContent = theme === "night" ? "DAY" : "NIGHT";
+  $("bTheme").firstChild.textContent = theme === "night" ? "切换白天" : "切换夜晚";
 }
 applyTheme();
 
@@ -213,9 +214,9 @@ const edgeLayer = document.createElement("canvas"); edgeLayer.width = brainC.wid
       g.beginPath(); g.moveTo(nodes[pre * 2] * W, nodes[pre * 2 + 1] * H); g.lineTo(nodes[post * 2] * W, nodes[post * 2 + 1] * H); g.stroke();
     }
   }
-  g.font = "600 17px ui-monospace, Menlo, Consolas, monospace"; g.fillStyle = "rgba(138,152,168,.75)"; g.textAlign = "center";
-  g.fillText("optic lobe L", W * 0.16, H * 0.07); g.fillText("optic lobe R", W * 0.84, H * 0.07); g.fillText("central brain", W * 0.5, H * 0.2);
-  g.fillText("descending neurons", W * 0.5, H * 0.69);
+  g.font = "600 17px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace"; g.fillStyle = "rgba(138,152,168,.75)"; g.textAlign = "center";
+  g.fillText("左视叶", W * 0.16, H * 0.07); g.fillText("右视叶", W * 0.84, H * 0.07); g.fillText("中央脑区", W * 0.5, H * 0.2);
+  g.fillText("下行运动神经元", W * 0.5, H * 0.69);
 }
 const ROLE_COL = ["57,255,136", "76,201,240", "255,77,141"];
 
@@ -242,7 +243,7 @@ function drawBrain(rates) {
     if (a > 0.3) { g.fillStyle = `rgba(${col},${0.18 * a})`; g.beginPath(); g.arc(x, y, (7 + 6 * a) * big, 0, Math.PI * 2); g.fill(); }
   }
   g.globalCompositeOperation = "source-over";
-  g.font = "700 15px ui-monospace, Menlo, Consolas, monospace"; g.textAlign = "center";
+  g.font = "700 15px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace"; g.textAlign = "center";
   const dn = [["DNg02", 0.445, 0.80], ["DNp03", 0.465, 0.91], ["DNp01", 0.48, 0.955]];
   for (const [name, x, y] of dn) {
     for (const side of ["L", "R"]) {
@@ -292,12 +293,12 @@ function drawEyes(last) {
   const loom = Math.max(loomLevel, pilot.illusion.loom > 0.05 ? pilot.illusion.loom : 0);
   if (loom > 0.15) {
     g.strokeStyle = `rgba(255,120,40,${0.4 + 0.6 * loom})`; g.lineWidth = 10; g.strokeRect(5, 5, W - 10, H - 10);
-    g.font = "900 30px ui-monospace, Menlo, Consolas, monospace"; g.fillStyle = "#ffb020"; g.textAlign = "center";
-    g.fillText("LOOMING", W / 2, H / 2 + 10);
+    g.font = "900 30px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace"; g.fillStyle = "#ffb020"; g.textAlign = "center";
+    g.fillText("物体逼近", W / 2, H / 2 + 10);
   }
-  g.font = "700 20px ui-monospace, Menlo, Consolas, monospace"; g.textAlign = "left"; g.fillStyle = "rgba(232,238,245,.85)";
-  g.fillText("L eye", 10, H - 12); g.textAlign = "right"; g.fillText("R eye", W - 10, H - 12);
-  $("loomTag").textContent = loom > 0.15 ? "LOOMING" : "T4/T5 · LPLC2";
+  g.font = "700 20px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace"; g.textAlign = "left"; g.fillStyle = "rgba(232,238,245,.85)";
+  g.fillText("左眼", 10, H - 12); g.textAlign = "right"; g.fillText("右眼", W - 10, H - 12);
+  $("loomTag").textContent = loom > 0.15 ? "物体逼近" : "T4/T5 · LPLC2";
   $("loomTag").style.color = loom > 0.15 ? "#ffb020" : "";
 }
 
@@ -326,7 +327,7 @@ function drawMotor(last) {
   g.clearRect(0, 0, W, H);
   const names = ["DNg02_L", "DNg02_R", "DNp03_L", "DNp03_R", "DNp01_L", "DNp01_R"];
   const x0 = 0, span = 560, bw = span / names.length, top = 8, bh = 128;
-  g.font = "700 22px ui-monospace, Menlo, Consolas, monospace"; g.textAlign = "center";
+  g.font = "700 22px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace"; g.textAlign = "center";
   names.forEach((n, i) => {
     const hz = r[n] || 0, v = Math.min(1, hz / 100), x = x0 + i * bw + 8, w = bw - 16, h = v * bh;
     const grad = g.createLinearGradient(0, top + bh, 0, top);
@@ -334,20 +335,20 @@ function drawMotor(last) {
     g.fillStyle = "rgba(255,255,255,.05)"; g.fillRect(x, top, w, bh);
     g.fillStyle = grad; g.fillRect(x, top + bh - h, w, h);
     g.fillStyle = "#e8eef5"; g.fillText(hz.toFixed(0), x + w / 2, Math.max(top + 24, top + bh - h - 6));
-    g.fillStyle = "#8a98a8"; g.font = "600 19px ui-monospace, Menlo, Consolas, monospace";
-    g.fillText(n.replace("_", " "), x + w / 2, top + bh + 26); g.font = "700 22px ui-monospace, Menlo, Consolas, monospace";
+    g.fillStyle = "#8a98a8"; g.font = "600 19px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace";
+    g.fillText(n.replace("_", " "), x + w / 2, top + bh + 26); g.font = "700 22px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace";
   });
-  const axes = [["THROTTLE", c.throttle], ["YAW", c.yaw], ["FORWARD", c.forward]];
+  const axes = [["升降", c.throttle], ["转向", c.yaw], ["前进", c.forward]];
   axes.forEach(([label, v], i) => {
     const y = 14 + i * 46, lx = 600, bx = 740, w = W - bx - 8, mid = bx + w / 2;
-    g.textAlign = "left"; g.fillStyle = "#8a98a8"; g.font = "700 20px ui-monospace, Menlo, Consolas, monospace"; g.fillText(label, lx, y + 22);
+    g.textAlign = "left"; g.fillStyle = "#8a98a8"; g.font = "700 20px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace"; g.fillText(label, lx, y + 22);
     g.fillStyle = "rgba(255,255,255,.06)"; g.fillRect(bx, y + 4, w, 24);
     g.fillStyle = v >= 0 ? "#39ff88" : "#4cc9f0"; g.fillRect(Math.min(mid, mid + (v * w) / 2), y + 4, Math.abs((v * w) / 2), 24);
     g.fillStyle = "rgba(232,238,245,.6)"; g.fillRect(mid - 1, y, 2, 32);
   });
-  g.textAlign = "left"; g.font = "900 22px ui-monospace, Menlo, Consolas, monospace";
-  if (c.escape) { g.fillStyle = "#ffb020"; g.fillText("GIANT FIBER ESCAPE", 600, 176); }
-  else { g.fillStyle = "#8a98a8"; g.font = "600 18px ui-monospace, Menlo, Consolas, monospace"; g.fillText(last.cmd.note ? last.cmd.note.slice(0, 40) : "after safety governor", 600, 176); }
+  g.textAlign = "left"; g.font = "900 22px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace";
+  if (c.escape) { g.fillStyle = "#ffb020"; g.fillText("巨纤维触发逃逸", 600, 176); }
+  else { g.fillStyle = "#8a98a8"; g.font = "600 18px ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace"; g.fillText(noteZh(last.cmd.note).slice(0, 24), 600, 176); }
 }
 
 // ================================================================== gestures, scenarios, webcam
@@ -379,7 +380,7 @@ window.addEventListener("keydown", (e) => {
 });
 $("bCam").onclick = async () => {
   if (webcam) return;
-  $("bCam").textContent = "LOADING…";
+  $("bCam").textContent = "加载识别模型…";
   try {
     const vision = await import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs");
     const fileset = await vision.FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
@@ -393,9 +394,9 @@ $("bCam").onclick = async () => {
     webcam = { hands, video };
     if (scenario !== "gestures") newPilot("gestures");
     setButtons("");
-    autoplay = false; $("bAuto").classList.remove("on"); $("bCam").classList.add("on"); $("bCam").textContent = "HAND ON";
+    autoplay = false; $("bAuto").classList.remove("on"); $("bCam").classList.add("on"); $("bCam").textContent = "手势已开启";
   } catch (err) {
-    console.warn(err); $("bCam").textContent = "NO CAMERA"; setTimeout(() => ($("bCam").textContent = "USE MY HAND"), 2500);
+    console.warn(err); $("bCam").textContent = "摄像头启动失败"; setTimeout(() => ($("bCam").textContent = "摄像头手势"), 2500);
   }
 };
 function readWebcam() {
@@ -430,10 +431,10 @@ function popAt(ev) {
   return best;
 }
 const POP_INFO = {
-  "R1-R6": "photoreceptors: brightness", T4a: "motion, front-to-back", T4b: "motion, back-to-front", T4c: "motion, upward", T4d: "motion, downward",
-  LPi_h: "inhibitory lobula plate cells (horizontal)", LPi_v: "inhibitory lobula plate cells (vertical)", HS: "horizontal system: body rotation", VS: "vertical system: sinking / rising",
-  LPLC2: "looming detector", LC4: "looming speed", PVLP: "looming integrators", PVLP_inh: "picks the saccade direction", LAL_inh: "steering inhibition",
-  DNg02: "wing-stroke amplitude -> throttle and yaw", DNp03: "evasive flight saccade", DNp01: "giant fiber: escape", haltere: "halteres: rotation sense",
+  "R1-R6": "感光细胞：检测亮度", T4a: "检测从前向后的运动", T4b: "检测从后向前的运动", T4c: "检测向上运动", T4d: "检测向下运动",
+  LPi_h: "水平运动通路中的抑制性细胞", LPi_v: "垂直运动通路中的抑制性细胞", HS: "水平视觉系统：感知身体转动", VS: "垂直视觉系统：感知下沉或上升",
+  LPLC2: "检测物体逼近", LC4: "检测物体逼近的速度", PVLP: "汇总物体逼近信号", PVLP_inh: "选择快速转向方向", LAL_inh: "抑制性转向调节",
+  DNg02: "振翅幅度相关输出：映射为升降和转向", DNp03: "快速转向以避开障碍", DNp01: "巨纤维：触发逃逸反应", haltere: "平衡棒：感知旋转",
 };
 brainC.addEventListener("mousemove", (ev) => {
   const pop = popAt(ev); hoverPop = pop;
@@ -441,7 +442,7 @@ brainC.addEventListener("mousemove", (ev) => {
   if (!pop) { tip.style.display = "none"; return; }
   const [type, side, start, count] = pop;
   let c = 0; for (let i = start; i < start + count; i++) c += brainAct[i];
-  tip.innerHTML = `<b>${type} ${side}</b> · ${count} neuron${count > 1 ? "s" : ""}<br>${POP_INFO[type] || ""}<br><span style="color:#8a98a8">click: stimulate for 1 s at 150 Hz</span>`;
+  tip.innerHTML = `<b>${type} ${sideZh(side)}</b> · ${count} 个神经元<br>${POP_INFO[type] || ""}<br><span style="color:#8a98a8">点击：以 150 Hz 刺激 1 秒</span>`;
   tip.style.display = "block"; tip.style.left = `${Math.min(window.innerWidth - 280, ev.clientX - 270)}px`; tip.style.top = `${ev.clientY + 14}px`;
 });
 brainC.addEventListener("mouseleave", () => { hoverPop = null; $("tip").style.display = "none"; });
@@ -449,9 +450,9 @@ brainC.addEventListener("click", (ev) => {
   const pop = popAt(ev); if (!pop || pilot.phase !== "flight") return;
   const [type, side, start, count] = pop;
   pilot.brain.unpoke(); pilot.brain.poke(start, count, 150);
-  pokeUntil = pilot.t + 1.0; pokeLabel = `${type} ${side}`;
+  pokeUntil = pilot.t + 1.0; pokeLabel = `${type} ${sideZh(side)}`;
   sfx.tone(660, 0.12, "triangle", 0.08);
-  popup(`ZAP ${type} ${side}`, "#39ff88");
+  popup(`刺激 ${type} ${sideZh(side)}`, "#39ff88");
 });
 
 // ================================================================== the swat game
@@ -472,13 +473,13 @@ function spawnSwat() {
   let wallD = 99;
   for (const [p, f] of [[d.pos[0], fx], [d.pos[1], fy]]) if (Math.abs(f) > 1e-3) wallD = Math.min(wallD, ((f > 0 ? 3 : -3) - p) / f);
   const D = Math.min(2.4, wallD - 0.25);
-  if (D < 1.3) { popup("too close to a wall", "#8a98a8"); return; }
+  if (D < 1.3) { popup("离墙太近了", "#8a98a8"); return; }
   const box = { lo: [0, 0, 0], hi: [0, 0, 0], shade: 0.1, name: "swatter", solid: false, moving: true };
   d.room.boxes.push(box);
   game.round = { c: [d.pos[0] + fx * D, d.pos[1] + fy * D, d.pos[2]], f: [fx, fy], D, box, t: 0, escT: null, esc0: pilot.decoder.escapes, swing: 0 };
   swatter.group.visible = true;
   sfx.noise(D / game.speed, 300, 2400, 0.18);
-  $("scHint").textContent = "incoming! watch the LPLC2 and DNp01 neurons";
+  $("scHint").textContent = "苍蝇拍靠近了！观察 LPLC2 和 DNp01 的活动";
 }
 function endRound(silent = false) {
   if (!game.round) return;
@@ -520,13 +521,13 @@ function gameAfterTick() {
       game.hits++; game.streak = 0; game.speed = Math.max(1.2, game.speed - 0.2);
       d.vel[0] -= r.f[0] * 1.2; d.vel[1] -= r.f[1] * 1.2; d.vel[2] -= 0.4;
       fly.hit(); shake = 0.5; emit(at, 60, 0xff3355, 1.6, 0.8, 1.5);
-      popup("SWATTED!", "#ff4d8d", 1.2); sfx.tone(120, 0.35, "sine", 0.35, -80); sfx.noise(0.2, 800, 200, 0.4);
-      $("scHint").textContent = game.react === null ? "the giant fiber never fired: too fast for these eyes" : `giant fiber fired only ${game.react} ms before impact`;
+      popup("被拍中了！", "#ff4d8d", 1.2); sfx.tone(120, 0.35, "sine", 0.35, -80); sfx.noise(0.2, 800, 200, 0.4);
+      $("scHint").textContent = game.react === null ? "巨纤维未触发：逼近速度超过了这套视觉模型的反应能力" : `巨纤维仅提前 ${game.react} 毫秒触发`;
     } else {
       game.dodges++; game.streak++; game.best = Math.max(game.best, game.streak); game.speed = Math.min(3.0, game.speed + 0.1);
       emit(at, 40, 0x39ff88, 1.2, 1.0, 1.2);
-      popup(game.streak > 2 ? `DODGED x${game.streak}` : "DODGED", "#39ff88", 1.0); sfx.tone(988, 0.12, "triangle", 0.1); setTimeout(() => sfx.tone(1318, 0.18, "triangle", 0.1), 90);
-      $("scHint").textContent = `giant fiber fired ${game.react ?? "?"} ms before impact · next swing is faster`;
+      popup(game.streak > 2 ? `连续躲过 ${game.streak} 次` : "躲过了！", "#39ff88", 1.0); sfx.tone(988, 0.12, "triangle", 0.1); setTimeout(() => sfx.tone(1318, 0.18, "triangle", 0.1), 90);
+      $("scHint").textContent = `逃逸提前量 ${game.react ?? "未知"} 毫秒 · 下一拍会更快`;
     }
     endRound();
   }
@@ -550,12 +551,12 @@ function updatePopups(dt) {
 }
 const raycaster = new THREE.Raycaster(), mouse = new THREE.Vector2();
 const pickables = [
-  { obj: fly.group, name: "fly", tip: "<b>the fly</b> · a mascot riding along. Click it!" },
-  { obj: drone.group, name: "drone", tip: "<b>the drone</b> · its camera is the fly brain's eyes" },
-  { obj: swatter.group, name: "swatter", tip: "<b>swatter</b> · the brain only knows it from optic flow" },
-  { obj: room.furniture.chair.group, name: "chair", tip: "<b>chair</b> · obstacle (try CHAIR RUN)" },
-  { obj: room.furniture.bed.group, name: "bed", tip: "<b>bed</b>" },
-  { obj: room.furniture.wardrobe.group, name: "wardrobe", tip: "<b>wardrobe</b>" },
+  { obj: fly.group, name: "fly", tip: "<b>果蝇</b> · 搭顺风机的吉祥物，点它试试！" },
+  { obj: drone.group, name: "drone", tip: "<b>无人机</b> · 模拟相机为神经网络提供视觉输入" },
+  { obj: swatter.group, name: "swatter", tip: "<b>苍蝇拍</b> · 网络通过画面的运动来感知它" },
+  { obj: room.furniture.chair.group, name: "chair", tip: "<b>椅子</b> · 障碍物，试试「椅子避障」" },
+  { obj: room.furniture.bed.group, name: "bed", tip: "<b>床</b>" },
+  { obj: room.furniture.wardrobe.group, name: "wardrobe", tip: "<b>衣柜</b>" },
 ];
 function pick(ev) {
   const r = canvas.getBoundingClientRect();
@@ -578,8 +579,8 @@ canvas.addEventListener("pointerup", (ev) => {
   if (moved > 6) return;
   hideHint();
   const p = pick(ev);
-  if (p?.name === "fly") { fly.buzz(1.6); sfx.buzz(0.8); popup(["bzzz!", "hey!", "bzz bzz", "I'm just the mascot"][Math.floor(Math.random() * 4)], "#ffd23f", 0.8); return; }
-  if (p?.name === "drone") { emit(droneRoot.position, 25, 0x5fb4ff, 0.6, 0.5); popup("drone camera = fly eyes", "#5fb4ff", 0.7); return; }
+  if (p?.name === "fly") { fly.buzz(1.6); sfx.buzz(0.8); popup(["嗡——", "嘿！", "嗡嗡！", "我只是吉祥物哦"][Math.floor(Math.random() * 4)], "#ffd23f", 0.8); return; }
+  if (p?.name === "drone") { emit(droneRoot.position, 25, 0x5fb4ff, 0.6, 0.5); popup("模拟相机就是网络的眼睛", "#5fb4ff", 0.7); return; }
   if (scenario === "game") spawnSwat();
 });
 
@@ -590,8 +591,8 @@ function setButtons(active) {
 }
 $("bSwat").onclick = () => { hideHint(); if (scenario === "game") spawnSwat(); else startGame(); };
 $("bTheme").onclick = () => { theme = theme === "day" ? "night" : "day"; applyTheme(); };
-$("bView").onclick = () => { view = { orbit: "chase", chase: "drone", drone: "orbit" }[view]; $("bView").firstChild.textContent = `VIEW: ${view.toUpperCase()}`; };
-$("bSound").onclick = () => { const on = sfx.toggle(); $("bSound").firstChild.textContent = on ? "SOUND ON" : "SOUND OFF"; if (on) sfx.buzz(0.3); };
+$("bView").onclick = () => { view = { orbit: "chase", chase: "drone", drone: "orbit" }[view]; $("bView").firstChild.textContent = `视角：${viewZh(view)}`; };
+$("bSound").onclick = () => { const on = sfx.toggle(); $("bSound").firstChild.textContent = on ? "音效：开" : "音效：关"; if (on) sfx.buzz(0.3); };
 window.addEventListener("keydown", (e) => {
   if (e.target.tagName === "INPUT") return;
   const k = e.key.toLowerCase();
@@ -639,24 +640,24 @@ function simTick() {
 
   drawRaster(last.spikes);
   drawEyes(last); drawBrain(last.rates); drawMotor(last);
-  $("sSpikes").textContent = Math.round(spikeRate).toLocaleString("en-US");
+  $("sSpikes").textContent = Math.round(spikeRate).toLocaleString("zh-CN");
   $("sAlt").textContent = last.tel.alt.toFixed(2);
-  $("tclock").textContent = pilot.phase === "flight" ? `sim t ${pilot.t.toFixed(1)} s` : "warm-up";
-  $("rtf").textContent = isFinite(simSpeed) ? `${simSpeed.toFixed(0)}× real time` : "";
+  $("tclock").textContent = pilot.phase === "flight" ? `仿真 ${pilot.t.toFixed(1)} 秒` : "预热中";
+  $("rtf").textContent = isFinite(simSpeed) ? `${simSpeed.toFixed(0)} 倍实时计算速度` : "";
 
   const warm = pilot.phase === "warmup";
   $("warm").style.opacity = warm ? 1 : 0;
   $("warmbar").style.width = `${Math.min(100, (1 + pilot.t / (pilot.decoder.settle + 0.1)) * 100)}%`;
-  if (warm) { $("gname").innerHTML = 'WARMING UP<small>brain settles on the ground</small>'; $("chain").textContent = "measuring resting firing rates of the descending neurons"; }
+  if (warm) { $("gname").innerHTML = '神经网络预热中<small>等待地面静息状态稳定</small>'; $("chain").textContent = "正在测量运动输出神经元的静息放电频率"; }
   else {
     const il = pilot.illusion;
-    let label = (pilot.gesture.label || "no hand").toUpperCase(), sub = autoplay ? "autoplay" : webcam ? "your hand" : "manual", chain = il.channel;
-    if (scenario === "chair") { label = "CHAIR RUN"; sub = "cruise forward, the brain brakes and dodges"; chain = pilot.decoder.brake > 0.2 ? "looming -> DNp03 / DNp01 -> brake + saccade" : "optic flow -> T4/T5 -> HS/VS -> DNg02 -> steady flight"; }
-    if (scenario === "game") { label = game.round ? "SWATTER INCOMING" : "SWAT THE DRONE"; sub = game.round ? `${game.speed.toFixed(1)} m/s` : "press S or click the room"; chain = game.round ? "expansion -> LPLC2 + LC4 -> giant fiber DNp01 -> jump" : il.channel; }
-    if (pokeUntil > 0) { label = `ZAP ${pokeLabel}`; sub = "you are stimulating these neurons"; }
+    let label = gestureZh(pilot.gesture.label || "no hand"), sub = autoplay ? "自动演示" : webcam ? "摄像头手势" : "手动操作", chain = il.channel;
+    if (scenario === "chair") { label = "椅子避障"; sub = "向前巡航，观察网络减速与转向"; chain = pilot.decoder.brake > 0.2 ? "looming -> DNp03 / DNp01 -> brake + saccade" : "optic flow -> T4/T5 -> HS/VS -> DNg02 -> steady flight"; }
+    if (scenario === "game") { label = game.round ? "苍蝇拍正在逼近" : "拍打挑战"; sub = game.round ? `${game.speed.toFixed(1)} 米 / 秒` : "按 S 或点击房间挥拍"; chain = game.round ? "expansion -> LPLC2 + LC4 -> giant fiber DNp01 -> jump" : il.channel; }
+    if (pokeUntil > 0) { label = `刺激 ${pokeLabel}`; sub = "正在人为刺激这组神经元"; }
     if (last.cmd.escape) chain = "LPLC2 + LC4 -> giant fiber DNp01 -> escape";
     $("gname").innerHTML = `${label}<small>${sub}</small>`;
-    $("chain").textContent = chain;
+    $("chain").textContent = channelZh(chain);
   }
   if (pilot.decoder.escapes > lastEscapes) {
     lastEscapes = pilot.decoder.escapes; toastUntil = pilot.t + 1.1; waveT = 0;

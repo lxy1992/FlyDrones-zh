@@ -127,7 +127,7 @@ export function createRoom(scene) {
       for (let i = 0; i < 40; i++) { c.beginPath(); c.moveTo((i * 131) % w, (i * 71) % h); c.lineTo((i * 57 + 90) % w, (i * 113 + 60) % h); c.stroke(); }
       c.fillStyle = "#39ff88"; for (let i = 0; i < 40; i++) { c.beginPath(); c.arc((i * 131) % w, (i * 71) % h, 5, 0, Math.PI * 2); c.fill(); }
       c.fillStyle = "#e8eef5"; c.font = "900 78px ui-monospace, Menlo, Consolas, monospace"; c.textAlign = "center"; c.fillText("FLY", w / 2, h * 0.78); c.fillText("DRONES", w / 2, h * 0.9);
-      c.fillStyle = "#ff4d8d"; c.font = "700 26px ui-monospace, Menlo, Consolas, monospace"; c.fillText("850 NEURONS · 1 DRONE", w / 2, h * 0.96);
+      c.fillStyle = "#ff4d8d"; c.font = "700 26px ui-monospace, Menlo, Consolas, monospace"; c.fillText("850 个神经元 · 1 架无人机", w / 2, h * 0.96);
     });
     add(wall.west, new THREE.PlaneGeometry(0.72, 1.0), new THREE.MeshStandardMaterial({ map: poster, roughness: 0.6 }), null, [2.05, 0.4, 0.012], { cast: false });
     add(wall.west, new THREE.BoxGeometry(0.78, 1.06, 0.02), std(0x222222), null, [2.05, 0.4, 0.002], { cast: false });

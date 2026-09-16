@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FlyDrones Live: a fly brain flies a drone</title>
-<meta name="description" content="A fruit fly brain model flies a drone in your browser. Swat it, show it your hand, poke its neurons.">
-<meta property="og:title" content="FlyDrones Live: a fly brain flies a drone">
-<meta property="og:description" content="Camera -> fly eyes -> spiking fly brain -> descending neurons -> drone. Runs in your browser.">
-<meta property="og:image" content="https://spikecalls.github.io/FlyDrones/social.png">
+<title>FlyDrones 中文试玩｜果蝇神经网络飞行模拟</title>
+<meta name="description" content="在浏览器中运行 850 神经元的 MiniFly 简化仿真：手势操控、障碍躲避、点击刺激神经元。">
+<meta property="og:title" content="FlyDrones 中文试玩｜果蝇神经网络飞行模拟">
+<meta property="og:description" content="模拟画面 → 视觉输入 → 脉冲神经网络 → 运动指令 → 虚拟无人机。计算在本机浏览器中进行。">
+<meta property="og:image" content="https://lxy1992.github.io/FlyDrones-zh/social.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2307090d'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%2339ff88'/%3E%3C/svg%3E">
 <script type="importmap">
@@ -17,8 +17,8 @@
 :root{
   --bg:#05070b; --panel:rgba(10,14,20,.72); --line:rgba(120,160,200,.16); --text:#e8eef5; --muted:#8a98a8;
   --green:#39ff88; --cyan:#4cc9f0; --pink:#ff4d8d; --amber:#ffb020;
-  --mono: ui-monospace,"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
-  --sans: Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono: ui-monospace,"JetBrains Mono","SF Mono",Menlo,Consolas,"PingFang SC","Microsoft YaHei",monospace;
+  --sans: Inter,system-ui,-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden}
@@ -101,84 +101,85 @@ body.rec *{transition:none !important}
 </style>
 </head>
 <body>
-<canvas id="scene"></canvas>
+<canvas id="scene" aria-label="MiniFly 神经网络驱动的三维无人机仿真"></canvas>
+<noscript>请启用 JavaScript；神经网络仿真需要在浏览器中运行。</noscript>
 <div class="vignette"></div>
 <div class="flash" id="flash"></div>
 
 <div class="brand panel">
-  <div class="logo">FlyDrones <span class="live">LIVE</span></div>
-  <div class="tag">A <b>fruit fly connectome</b> is flying this drone. Camera → fly eyes → spiking brain → descending neurons → throttle.</div>
+  <div class="logo">FlyDrones <span class="live">中文 · 实时仿真</span></div>
+  <div class="tag"><b>MiniFly 简化神经网络</b>驱动虚拟无人机。画面 → 视觉输入 → 神经放电 → 运动指令。</div>
   <div class="chips">
-    <div class="chip g"><div class="v" id="sNeurons">850</div><div class="k">neurons</div></div>
-    <div class="chip"><div class="v" id="sConn">4,928</div><div class="k">connections</div></div>
-    <div class="chip p"><div class="v" id="sSpikes">0</div><div class="k">spikes/s</div></div>
-    <div class="chip c"><div class="v" id="sAlt">0.00</div><div class="k">alt m</div></div>
+    <div class="chip g"><div class="v" id="sNeurons">850</div><div class="k">神经元</div></div>
+    <div class="chip"><div class="v" id="sConn">4,928</div><div class="k">连接</div></div>
+    <div class="chip p"><div class="v" id="sSpikes">0</div><div class="k">放电次数 / 秒</div></div>
+    <div class="chip c"><div class="v" id="sAlt">0.00</div><div class="k">高度 / 米</div></div>
   </div>
   <div class="toggles">
-    <button class="tbtn" id="bTheme" title="day / night">NIGHT<kbd>N</kbd></button>
-    <button class="tbtn" id="bView" title="orbit / chase / drone camera">VIEW: ORBIT<kbd>C</kbd></button>
-    <button class="tbtn" id="bSound" title="sound">SOUND OFF<kbd>M</kbd></button>
-    <a class="tbtn gh" href="https://github.com/SpikeCalls/FlyDrones" target="_blank" rel="noopener">GITHUB</a>
+    <button class="tbtn" id="bTheme" title="切换白天 / 夜晚">切换夜晚<kbd>N</kbd></button>
+    <button class="tbtn" id="bView" title="切换环绕 / 跟随 / 机载相机">视角：环绕<kbd>C</kbd></button>
+    <button class="tbtn" id="bSound" title="开启或关闭音效">音效：关<kbd>M</kbd></button>
+    <a class="tbtn gh" href="https://github.com/lxy1992/FlyDrones-zh" target="_blank" rel="noopener">中文源码</a>
   </div>
-  <div class="honest">The fly on top is a mascot. The pilot is the simulated brain on the right. MiniFly: 850-neuron synthetic stand-in with real fly cell types, running in your browser. The <a href="https://github.com/SpikeCalls/FlyDrones">Python package</a> loads the full ~166k-neuron MaleCNS connectome. Simulation, not a real flight.</div>
+  <div class="honest">机顶果蝇只是吉祥物；右侧网络在本机实时计算。这里是 850 神经元、人工连接的 MiniFly，不是完整果蝇脑，也不连接真实无人机。<a href="https://github.com/SpikeCalls/FlyDrones" target="_blank" rel="noopener">原作 SpikeCalls / MIT</a> · <a href="https://github.com/lxy1992/FlyDrones-zh/blob/main/README.zh-CN.md" target="_blank" rel="noopener">中文玩法</a></div>
 </div>
 
 <div class="side">
   <div class="panel">
-    <div class="ph"><span><b>Fly eyes</b></span><span id="loomTag">T4/T5 · LPLC2</span></div>
+    <div class="ph"><span><b>果蝇视野</b></span><span id="loomTag">T4/T5 · LPLC2</span></div>
     <div class="eyewrap"><canvas class="hud" id="eyes" width="532" height="399"></canvas><video id="cam" playsinline muted></video></div>
   </div>
   <div class="panel">
-    <div class="ph"><span><b>Brain</b> · click it</span><span id="rtf">-</span></div>
+    <div class="ph"><span><b>神经网络</b> · 点击刺激</span><span id="rtf">-</span></div>
     <canvas class="hud" id="brain" width="532" height="380" style="cursor:crosshair" title=""></canvas>
   </div>
   <div class="panel">
-    <div class="ph"><span><b>Spikes</b></span><span>DN · inter · input</span></div>
+    <div class="ph"><span><b>放电栅格</b></span><span>运动输出 · 中间 · 输入</span></div>
     <canvas class="hud" id="raster" width="532" height="120"></canvas>
   </div>
 </div>
 
 <div class="path panel">
-  <div class="ph" style="margin-bottom:2px"><span><b>What the fly sees and does</b></span><span id="tclock">t 0.0 s</span></div>
-  <div class="gname" id="gname">WARMING UP<small id="gsub">brain settles on the ground</small></div>
-  <div class="chain" id="chain">measuring resting firing rates of the descending neurons</div>
+  <div class="ph" style="margin-bottom:2px"><span><b>它看到了什么，又做了什么</b></span><span id="tclock">仿真 0.0 秒</span></div>
+  <div class="gname" id="gname">神经网络预热中<small id="gsub">等待地面静息状态稳定</small></div>
+  <div class="chain" id="chain">正在测量运动输出神经元的静息放电频率</div>
   <canvas class="hud" id="motor" width="1060" height="190" style="margin-top:8px;background:transparent"></canvas>
 </div>
 
 
 <div class="dock panel" id="dock">
-  <button class="btn" data-g="palm" title="open palm: the fly sees the room drift up, as if sinking">PALM<kbd>1</kbd></button>
-  <button class="btn" data-g="fist" title="fist: still scene, hold">FIST<kbd>2</kbd></button>
-  <button class="btn" data-g="left" title="hand left: the scene rotates left">LEFT<kbd>3</kbd></button>
-  <button class="btn" data-g="right" title="hand right: the scene rotates right">RIGHT<kbd>4</kbd></button>
-  <button class="btn" data-g="rush" title="hand rushes at the camera: looming">RUSH<kbd>5</kbd></button>
-  <button class="btn" data-g="drop" title="hand dropped: the scene drifts down, as if rising">DROP<kbd>6</kbd></button>
+  <button class="btn" data-g="palm" title="张掌：画面向上移动，模拟自身下沉，触发上升">张掌上升<kbd>1</kbd></button>
+  <button class="btn" data-g="fist" title="握拳：画面静止，保持高度">握拳悬停<kbd>2</kbd></button>
+  <button class="btn" data-g="left" title="手向左移：注入向左旋转的视觉信号">向左<kbd>3</kbd></button>
+  <button class="btn" data-g="right" title="手向右移：注入向右旋转的视觉信号">向右<kbd>4</kbd></button>
+  <button class="btn" data-g="rush" title="手快速靠近相机：模拟物体逼近">快速靠近<kbd>5</kbd></button>
+  <button class="btn" data-g="drop" title="放下手：画面向下移动，模拟自身上升，触发下降">放手下降<kbd>6</kbd></button>
   <span class="sep"></span>
-  <button class="btn swat" id="bSwat" title="throw a fly swatter at the drone. Can the fly brain react in time?">SWAT IT<kbd>S</kbd></button>
-  <button class="btn on" id="bAuto">AUTOPLAY<kbd>space</kbd></button>
-  <button class="btn" id="bChair">CHAIR RUN</button>
-  <button class="btn" id="bCam">USE MY HAND</button>
-  <button class="btn" id="bReset">RESET<kbd>R</kbd></button>
+  <button class="btn swat" id="bSwat" title="用苍蝇拍靠近无人机，观察网络能否及时触发躲避">拍打挑战<kbd>S</kbd></button>
+  <button class="btn on" id="bAuto">自动演示<kbd>空格</kbd></button>
+  <button class="btn" id="bChair">椅子避障</button>
+  <button class="btn" id="bCam" title="需主动授权摄像头；图像在本机处理，首次加载手势识别资源需要联网">摄像头手势</button>
+  <button class="btn" id="bReset">重置<kbd>R</kbd></button>
 </div>
 
 <div class="score panel" id="score">
-  <div class="st">SWAT THE DRONE <small>the fly brain has to see it coming</small></div>
+  <div class="st">拍打挑战 <small>神经网络需要先看见逼近的苍蝇拍</small></div>
   <div class="sr">
-    <div><b id="scDodge">0</b><span>dodged</span></div>
-    <div><b id="scHit">0</b><span>swatted</span></div>
-    <div><b id="scStreak">0</b><span>streak</span></div>
-    <div><b id="scBest">0</b><span>best</span></div>
-    <div><b id="scSpeed">1.2</b><span>m/s</span></div>
-    <div><b id="scReact">-</b><span>GF lead ms</span></div>
+    <div><b id="scDodge">0</b><span>成功躲避</span></div>
+    <div><b id="scHit">0</b><span>被拍中</span></div>
+    <div><b id="scStreak">0</b><span>连续躲避</span></div>
+    <div><b id="scBest">0</b><span>最佳连胜</span></div>
+    <div><b id="scSpeed">1.2</b><span>米 / 秒</span></div>
+    <div><b id="scReact">-</b><span>逃逸提前量 / 毫秒</span></div>
   </div>
-  <div class="sh" id="scHint">click the room or press S to swing</div>
+  <div class="sh" id="scHint">点击房间或按 S 挥动苍蝇拍</div>
 </div>
 <div class="tip" id="tip"></div>
-<div class="hint panel" id="hint"><b>Try:</b> click the fly · press <kbd>S</kbd> to swat the drone · click a neuron group in the Brain panel · drag to orbit</div>
+<div class="hint panel" id="hint"><b>试试看：</b>点击果蝇 · 按 <kbd>S</kbd> 开始拍打挑战 · 点击右侧神经元群 · 拖动画面调整视角</div>
 <div id="popups"></div>
 
-<div class="toast" id="toast">GIANT FIBER ESCAPE<small>LPLC2 + LC4 → DNp01 fired</small></div>
-<div class="warm" id="warm"><div class="t">WARMING UP THE BRAIN</div><div class="bar"><i id="warmbar"></i></div><div class="s">850 neurons settling · measuring resting rates</div></div>
+<div class="toast" id="toast">触发逃逸反应<small>LPLC2 + LC4 → 巨纤维 DNp01 放电</small></div>
+<div class="warm" id="warm"><div class="t">正在预热神经网络</div><div class="bar"><i id="warmbar"></i></div><div class="s">850 个神经元正在稳定 · 测量静息放电频率</div></div>
 
 <script type="module" src="live/app.js"></script>
 </body>

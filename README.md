@@ -1,3 +1,5 @@
+> **中文试玩分支**：打开 [在线中文版](https://lxy1992.github.io/FlyDrones-zh/) · [中文玩法与本地启动](README.zh-CN.md)。本分支保留原模拟逻辑，仅本地化网页展示；原项目说明如下。
+
 <p align="center">
   <img src="assets/banner.svg" alt="FlyDrones: a fruit fly connectome as a drone pilot" width="100%">
 </p>

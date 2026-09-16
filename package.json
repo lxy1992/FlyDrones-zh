@@ -1,0 +1,9 @@
+{
+  "name": "flydrones-zh",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tools/check_zh.mjs && node tools/check_web_engine.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
